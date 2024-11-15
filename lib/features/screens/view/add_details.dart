@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:guitar_notes/chords_note_screen.dart';
+import 'package:guitar_notes/features/screens/view/controller/lyric_controller.dart';
 import 'package:guitar_notes/global/constants/app_color.dart';
 import 'package:guitar_notes/global/constants/app_fonts.dart';
 
@@ -27,27 +27,35 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
       child: Scaffold(
         backgroundColor: AppColor.backgroundColor,
         appBar: AppBar(
-          backgroundColor: AppColor.backgroundColor,
-          actions: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  Navigator.of(context).pushNamed("/chordsnoteScreen");
-                });
-              },
-              icon: Icon(
-                Icons.check,
-                color: AppColor.secondaryColor,
+            backgroundColor: AppColor.backgroundColor,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    Navigator.of(context).pushNamed("/chordsnoteScreen");
+                  });
+                },
+                icon: Icon(
+                  Icons.check,
+                  color: AppColor.secondaryColor,
+                ),
               ),
-            ),
-          ],
-          title: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: AppColor.secondaryColor,
-              )),
-        ),
+            ],
+            title: Column(
+              children: [
+                Text(
+                  _controller.title.value.text,
+                  style: TextStyle(
+                      color: AppColor.primaryColor,
+                      fontFamily: "Cousine",
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30),
+                ),
+                Text(
+                  _controller.artist.value.text,
+                )
+              ],
+            )),
         body: Padding(
           padding: const EdgeInsets.only(top: 0, left: 30),
           child: Column(
