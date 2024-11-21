@@ -36,8 +36,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guitar_notes/features/screens/view/chords%20edit/chords_note_screen.dart'; // Assuming this is the correct import
+import 'package:guitar_notes/features/screens/view/add_details.dart';
+import 'package:guitar_notes/features/screens/view/chords%20edit/chords_note_screen.dart';
 import 'package:guitar_notes/features/screens/view/controller/lyric_controller.dart';
+import 'package:guitar_notes/features/screens/view/dashboard/home_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -50,11 +52,16 @@ class RouteGenerator {
           page: () => ChordsNoteScreen(),
           transition: Transition.cupertino,
         );
-      // case '/SavedEntriesList':
-      //   return GetPageRoute(
-      //     page: () => SaveScreen(),
-      //     transition: Transition.cupertino,
-      //   );
+      case '/addScreen':
+        return GetPageRoute(
+          page: () => AddDetailScreen(),
+          transition: Transition.cupertino,
+        );
+      case '/homeScreen':
+        return GetPageRoute(
+          page: () => HomePageScreen(),
+          transition: Transition.cupertino,
+        );
       default:
         return _errorRoute();
     }

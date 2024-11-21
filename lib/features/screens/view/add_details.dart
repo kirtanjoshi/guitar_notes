@@ -21,6 +21,8 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
 
   final _controller = Get.put(LyricsController());
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,9 +33,18 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  setState(() {
-                    Navigator.of(context).pushNamed("/chordsnoteScreen");
-                  });
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // If the form is valid, proceed (e.g., save data)
+                    setState(() {
+                      Navigator.of(context).pushNamed("/chordsnoteScreen");
+                    });
+                  } else {
+                    // If the form is invalid, show a message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content: Text('Please fill in all fields correctly')),
+                    );
+                  }
                 },
                 icon: Icon(
                   Icons.check,
@@ -44,7 +55,7 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
             title: Column(
               children: [
                 Text(
-                  _controller.title.value.text,
+                  _controller.title.text,
                   style: TextStyle(
                       color: AppColor.primaryColor,
                       fontFamily: "Cousine",
@@ -52,101 +63,129 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                       fontSize: 30),
                 ),
                 Text(
-                  _controller.artist.value.text,
+                  _controller.artist.text,
                 )
               ],
             )),
         body: Padding(
           padding: const EdgeInsets.only(top: 0, left: 30),
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  TextFormField(
-                    controller: _controller.title,
-                    focusNode: songNameFocusNode,
-                    style: TextStyle(
-                        fontFamily: AppFonts.secondaryFont,
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.secondaryColor),
-                    onFieldSubmitted: (value) {
-                      if (value.isNotEmpty) {
-                        artistFocusNode.requestFocus();
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Song Name",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                  TextFormField(
-                    // controller: _controller.artist,
-                    focusNode: artistFocusNode,
-                    style: TextStyle(
-                        fontFamily: AppFonts.secondaryFont,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.secondaryColor),
-                    onFieldSubmitted: (value) {
-                      capoFretFocusNode.requestFocus();
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Artist",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                  TextFormField(
-                    // controller: _controller.capo,
-                    focusNode: capoFretFocusNode,
-                    style: TextStyle(
-                        fontFamily: AppFonts.secondaryFont,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.secondaryColor),
-                    onFieldSubmitted: (value) {
-                      strummingPatternFocusNode.requestFocus();
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Capo Fret",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                  TextFormField(
-                    // controller: _controller.strummingPattern,
-                    focusNode: strummingPatternFocusNode,
-                    style: TextStyle(
-                        fontFamily: AppFonts.secondaryFont,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: AppColor.secondaryColor),
-                    onFieldSubmitted: (value) {
-                      lyricsFocusNode.requestFocus();
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Strumming Pattern",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ],
-              ),
-              Gap(30),
-              Expanded(
-                child: TextFormField(
-                  controller: _controller.lyric,
-                  focusNode: lyricsFocusNode,
-                  maxLines: null,
-                  style: TextStyle(
-                      fontFamily: AppFonts.secondaryFont,
-                      fontSize: 15,
-                      color: AppColor.secondaryColor),
-                  decoration: InputDecoration(
-                    hintText: "Add your lyric here",
-                    border: InputBorder.none,
-                  ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    TextFormField(
+                        controller: _controller.title,
+                        focusNode: songNameFocusNode,
+                        style: TextStyle(
+                            fontFamily: AppFonts.secondaryFont,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.secondaryColor),
+                        onFieldSubmitted: (value) {
+                          if (value.isNotEmpty) {
+                            artistFocusNode.requestFocus();
+                          }
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Song Name",
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter song name';
+                          }
+                          return null;
+                        }),
+                    TextFormField(
+                        controller: _controller.artist,
+                        focusNode: artistFocusNode,
+                        style: TextStyle(
+                            fontFamily: AppFonts.secondaryFont,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.secondaryColor),
+                        onFieldSubmitted: (value) {
+                          capoFretFocusNode.requestFocus();
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Artist",
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter artist name';
+                          }
+                          return null;
+                        }),
+                    TextFormField(
+                        controller: _controller.capo,
+                        focusNode: capoFretFocusNode,
+                        style: TextStyle(
+                            fontFamily: AppFonts.secondaryFont,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.secondaryColor),
+                        onFieldSubmitted: (value) {
+                          strummingPatternFocusNode.requestFocus();
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Capo Fret",
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter capo fret';
+                          }
+                          return null;
+                        }),
+                    TextFormField(
+                        controller: _controller.strummingPattern,
+                        focusNode: strummingPatternFocusNode,
+                        style: TextStyle(
+                            fontFamily: AppFonts.secondaryFont,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: AppColor.secondaryColor),
+                        onFieldSubmitted: (value) {
+                          lyricsFocusNode.requestFocus();
+                        },
+                        decoration: InputDecoration(
+                          hintText: "Strumming Pattern",
+                          border: InputBorder.none,
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter strumming pattern';
+                          }
+                          return null;
+                        }),
+                  ],
                 ),
-              ),
-            ],
+                Gap(30),
+                Expanded(
+                  child: TextFormField(
+                      controller: _controller.lyric,
+                      focusNode: lyricsFocusNode,
+                      maxLines: null,
+                      style: TextStyle(
+                          fontFamily: AppFonts.secondaryFont,
+                          fontSize: 15,
+                          color: AppColor.secondaryColor),
+                      decoration: InputDecoration(
+                        hintText: "Add your lyric here",
+                        border: InputBorder.none,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter lyrics';
+                        }
+                        return null;
+                      }),
+                ),
+              ],
+            ),
           ),
         ),
       ),

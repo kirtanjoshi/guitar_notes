@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:guitar_notes/features/screens/view/chords%20edit/widgets/lyric_with_chords.dart';
 import 'package:guitar_notes/features/screens/view/controller/lyric_controller.dart';
-import 'package:guitar_notes/features/screens/view/save%20page/save_screen.dart';
+import 'package:guitar_notes/features/screens/view/dashboard/home_page.dart';
+// import 'package:guitar_notes/features/screens/view/chords%20edit/widgets/lyric_with_chordse_screen.dart';
 import 'package:guitar_notes/global/constants/app_color.dart';
 
 class ChordsNoteScreen extends StatefulWidget {
@@ -31,37 +33,6 @@ class _ChordsNoteScreenState extends State<ChordsNoteScreen> {
 
   int? selectedLineIndex;
   int? selectedWordIndex;
-
-  @override
-  void dispose() {
-    _controller.lyric.dispose();
-    chordEditorController.dispose();
-    super.dispose();
-  }
-
-  // Method to save the lyrics and chord mapping
-  // void saveLyrics() {
-  //   setState(() {
-  //     savedEntries.add({
-  //       'lyrics': _controller.lyric.text,
-  //       'chords': _controller.chordMapping,
-  //     });
-  //     print('Saved Entries: ${savedEntries}');
-  //   });
-  // }
-
-  // void saveLyrics() {
-  //   setState(() {
-  //     savedEntries.add({
-  //       'lyrics': _controller.lyric.text,
-  //       'chords': _controller.chordMapping,
-  //     });
-  //     print('Saved Entries: ${savedEntries}');
-  //   });
-  //
-  //   // Navigate to the SavedLyricsPage with saved entries
-  //   Get.to(() => SavedLyricsPage(savedEntries: savedEntries));
-  // }
 
   void _onWordTapped(int lineIndex, int wordIndex, String word) {
     setState(() {
@@ -101,24 +72,111 @@ class _ChordsNoteScreenState extends State<ChordsNoteScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "The Unforgiven",
+                          _controller.title.text,
                           style: TextStyle(
                               color: AppColor.primaryColor,
                               fontFamily: "Cousine",
                               fontWeight: FontWeight.bold,
-                              fontSize: 25.sp),
+                              fontSize: 30.sp),
                         ),
                         Text(
-                          "Metallica",
+                          _controller.artist.text,
                           style: TextStyle(
-                              color: AppColor.secondaryColor, fontSize: 20.sp),
+                              color: AppColor.secondaryColor, fontSize: 16.sp),
                         )
                       ],
                     ),
                     IconButton(
                         onPressed: () {
                           _controller.saveLyrics();
-                          Get.to(() => SavedEntriesPage());
+                          Get.to(() => HomePageScreen());
+                          _controller.title.clear();
+                          _controller.artist.clear();
+                          _controller.capo.clear();
+                          _controller.strummingPattern.clear();
+                          _controller.lyric.clear();
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    height: 90,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xFFC72C41),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 48),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Well Done!!",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.white),
+                                              ),
+                                              Text(
+                                                "Saved!!!!!!",
+                                                style: TextStyle(
+                                                  fontSize: 30,
+                                                  color: Colors.white,
+                                                ),
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Positioned(
+                                      bottom: 0,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(20)),
+                                        child: SvgPicture.asset(
+                                          "assets/icons/bubbles.svg",
+                                          height: 48,
+                                          width: 40,
+                                          colorFilter: ColorFilter.mode(
+                                              Color(0xFF801336),
+                                              BlendMode.srcIn),
+                                        ),
+                                      )),
+                                  Positioned(
+                                      top: -20,
+                                      left: 0,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/icons/fail.svg",
+                                            height: 40,
+                                          ),
+                                          Positioned(
+                                            top: 10,
+                                            child: SvgPicture.asset(
+                                              "assets/icons/close.svg",
+                                              height: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ))
+                                ],
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                            ),
+                          );
                         },
                         icon: Icon(Icons.save)),
                   ],
