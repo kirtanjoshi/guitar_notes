@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
 
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -41,10 +42,25 @@ dependencies:
   shared_preferences: ^2.3.3
   awesome_snackbar_content: ^0.1.4
   flutter_svg: ^2.0.14
+  device_preview: ^1.2.0
+  flutter_launcher_icons: ^0.14.1
+  url_launcher: ^6.3.1
+  easy_url_launcher: ^0.0.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.14.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/Screenshot 2024-11-29 173834.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  adaptive_icon_background: "#ffffff" # You can use a color or image for the background
+  adaptive_icon_foreground: "assets/Screenshot 2024-11-29 173834.png" # For adaptive icons on Android
+
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

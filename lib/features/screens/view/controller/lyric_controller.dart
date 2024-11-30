@@ -26,14 +26,6 @@ class LyricsController extends GetxController {
     chordMapping[lineIndex]![wordIndex] = chord;
   }
 
-  // void saveLyric() {
-  //   entries.add({
-  //     'lyrics': lyric.text,
-  //     'chords': chordMapping,
-  //   });
-  //   print(entries);
-  // }
-
   void saveLyrics() async {
     // Convert chordMapping to JSON-compatible structure
     final convertedChordMapping = chordMapping.map((lineIndex, wordsMap) {
@@ -72,29 +64,6 @@ class LyricsController extends GetxController {
     print("Converted Chord Mapping: ${jsonEncode(convertedChordMapping)}");
   }
 
-  // void saveLyrics() async {
-  //   // Convert RxMap to regular Map and ensure JSON-compatible keys
-  //   final convertedChordMapping = chordMapping.map((lineIndex, wordsMap) {
-  //     return MapEntry(
-  //       lineIndex.toString(), // Convert lineIndex to String
-  //       wordsMap
-  //           .map((wordIndex, chord) => MapEntry(wordIndex.toString(), chord)),
-  //     );
-  //   });
-  //
-  //   entries.add({
-  //     "title": title.text,
-  //     "artist": artist.text,
-  //     "capo": capo.text,
-  //     "strumming": strummingPattern.text,
-  //     'lyrics': lyric.text,
-  //     'chords': convertedChordMapping, // JSON-compatible Map
-  //   });
-  //
-  //   // Store the updated data
-  //   await _storage.storeAllData(storageKey, entries.toList());
-  // }
-
   void loadentries() async {
     List<Map<String, dynamic>>? data =
         await _storage.fetchAllData('chords_and_lyrics');
@@ -122,7 +91,14 @@ class LyricsController extends GetxController {
           'chords': chords, // Now it's a Map<int, Map<int, String>>
         };
       }).toList();
+    } else {
+      print("No data found");
     }
+  }
+
+  void deleteAllEntries() async {
+    await _storage.delete(storageKey);
+    entries.clear();
   }
 
   /// Cheleko codeeee

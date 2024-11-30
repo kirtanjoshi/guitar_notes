@@ -1,3 +1,4 @@
+import 'package:easy_url_launcher/easy_url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -164,6 +165,37 @@ class _AddDetailScreenState extends State<AddDetailScreen> {
                   ],
                 ),
                 Gap(30),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                      onPressed: () async {
+                        // var query = _controller.title.text.isNotEmpty
+                        //     ? _controller.title.text + " lyrics"
+                        //     : "song lyrics";
+                        // var url = Uri.https(
+                        //     "www.google.com", "/search", {"q": query});
+                        // if (await canLaunchUrl(url)) {
+                        //   await launchUrl(url,
+                        //       mode: LaunchMode.externalApplication);
+                        // } else {
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     SnackBar(content: Text('Could not launch URL')),
+                        //   );
+                        // }
+
+                        // var url = Uri.https('linktr.ee', '/misscoding');
+                        // if (await canLaunchUrl(url)) {
+                        //   await launchUrl(url,
+                        //       mode: LaunchMode
+                        //           .platformDefault); // Try specifying the mode explicitly
+                        // } else {
+                        //   print("Can't launch the URL");
+                        // }
+
+                        await EasyLauncher.url(url: "https://google.com");
+                      },
+                      child: Text("Search lyric")),
+                ),
                 Expanded(
                   child: TextFormField(
                       controller: _controller.lyric,

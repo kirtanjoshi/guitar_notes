@@ -17,8 +17,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   void initState() {
-    _controller.loadentries();
     super.initState();
+    _controller.loadentries();
+    // print(
+    // "Loaded entries: ${_controller.entries}"); // Assuming _controller has an 'entries' property
   }
 
   @override
@@ -47,7 +49,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         fontFamily: "BraahOne",
                         fontSize: 25,
                         color: AppColor.primaryColor),
-                  ) // Empty TextSpan for debugging
+                  ),
+                  // Empty TextSpan for debugging
                 ],
               ),
             ),
@@ -74,36 +77,55 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                 ),
               )
-            : Obx(() {
-                return ListView.builder(
-                  itemCount: _controller.entries.length,
-                  itemBuilder: (context, index) {
-                    final entry = _controller.entries[index];
-                    final title = entry['title'] as String;
+            : Padding(
+                padding: EdgeInsets.only(top: 0.05.sh),
+                child: Obx(() {
+                  return ListView.builder(
+                    itemCount: _controller.entries.length,
+                    itemBuilder: (context, index) {
+                      final entry = _controller.entries[index];
+                      final title = entry['title'] as String;
+                      final artist = entry['artist'] as String;
 
-                    return ListTile(
-                      title: Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "Inconsolata",
-                        ),
-                      ),
-                      onTap: () {
-                        // Navigate to SavedEntriesList with the selected entry
-                        Get.to(
-                          SavedEntriesList(
-                            savedEntries: [entry],
+                      return Card(
+                        color: Color(0xFF79797F),
+                        child: ListTile(
+                          title: Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Inconsolata",
+                            ),
                           ),
-                          // Pass the selected song's details
-                        );
-                      },
-                    );
-                  },
-                );
-              }),
+                          subtitle: Text(
+                            artist,
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Inconsolata",
+                            ),
+                          ),
+                          onTap: () {
+                            // Navigate to SavedEntriesList with the selected entry
+                            Get.to(
+                              SavedEntriesList(
+                                savedEntries: [entry],
+                              ),
+                              // Pass the selected song's details
+                            );
+                          },
+                          onLongPress: () {
+                            _controller.deleteAllEntries();
+                          },
+                        ),
+                      );
+                    },
+                  );
+                }),
+              ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).pushNamed("/addScreen");

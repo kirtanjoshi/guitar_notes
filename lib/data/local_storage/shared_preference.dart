@@ -80,10 +80,13 @@ class SPStorage {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? jsonString = prefs.getString(key);
     if (jsonString != null) {
-      print("Data read from Shared Preferences: $jsonString");
-      return (jsonDecode(jsonString) as List)
-          .map((item) => item as Map<String, dynamic>)
-          .toList();
+      try {
+        return (jsonDecode(jsonString) as List)
+            .map((item) => Map<String, dynamic>.from(item))
+            .toList();
+      } catch (e) {
+        print("Error during data fetch: $e");
+      }
     }
     return null;
   }
