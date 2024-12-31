@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:guitar_notes/global/constants/app_color.dart';
 
-class LyricsWithChords extends StatelessWidget {
+class LyricsWithChords extends StatefulWidget {
   final TextEditingController lyricsController;
   final Map<int, Map<int, String>> chordMapping;
   final Function(int, int, String) onWordTapped;
@@ -15,8 +15,13 @@ class LyricsWithChords extends StatelessWidget {
   });
 
   @override
+  State<LyricsWithChords> createState() => _LyricsWithChordsState();
+}
+
+class _LyricsWithChordsState extends State<LyricsWithChords> {
+  @override
   Widget build(BuildContext context) {
-    final lines = lyricsController.text
+    final lines = widget.lyricsController.text
         .split('\n')
         // .where((line) => line.trim().isNotEmpty) // Remove any empty lines
         .toList();
@@ -32,10 +37,18 @@ class LyricsWithChords extends StatelessWidget {
           child: Wrap(
             spacing: 5.0,
             children: List.generate(words.length, (wordIndex) {
-              final chordAbove = chordMapping[lineIndex]?[wordIndex];
+              var chordAbove = widget.chordMapping[lineIndex]?[wordIndex];
               return GestureDetector(
+                onLongPress: () {
+                  if (chordAbove != null) {
+                    // Update the chordMapping to remove the chord
+                    setState(() {
+                      widget.chordMapping[lineIndex]?.remove(wordIndex);
+                    });
+                  }
+                },
                 onTap: () =>
-                    onWordTapped(lineIndex, wordIndex, words[wordIndex]),
+                    widget.onWordTapped(lineIndex, wordIndex, words[wordIndex]),
                 child: Column(
                   children: [
                     // Fixed-height container for chord, with conditional visibility
@@ -64,7 +77,7 @@ class LyricsWithChords extends StatelessWidget {
                     Container(
                       child: DragTarget<String>(
                         onAccept: (chord) {
-                          onChordDropped(lineIndex, wordIndex, chord);
+                          widget.onChordDropped(lineIndex, wordIndex, chord);
                         },
                         builder: (context, candidateData, rejectedData) {
                           return Text(

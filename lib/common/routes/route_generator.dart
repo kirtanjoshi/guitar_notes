@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
 // import 'package:guitar_notes/fasdfsadf.dart';
-// import 'package:guitar_notes/features/screens/view/chords%20edit/chords_note_screen.dart';
+// import 'package:guitar_notes/features/screens/view/add_chords_screen%20edit/chords_note_screen.dart';
 // import 'package:guitar_notes/features/screens/view/controller/lyric_controller.dart';
 //
 // class RouteGenerator {
@@ -36,7 +36,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:guitar_notes/features/screens/view/add_details.dart';
+import 'package:guitar_notes/features/screens/view/add_details/add_details.dart';
 import 'package:guitar_notes/features/screens/view/chords%20edit/chords_note_screen.dart';
 import 'package:guitar_notes/features/screens/view/controller/lyric_controller.dart';
 import 'package:guitar_notes/features/screens/view/dashboard/home_page.dart';
@@ -57,6 +57,12 @@ class RouteGenerator {
           page: () => AddDetailScreen(),
           transition: Transition.cupertino,
         );
+      // case '/addChordsScreen':
+      //   return GetPageRoute(
+      //     page: () => AddChordsScreen(),
+      //     transition: Transition.cupertino,
+      //   );
+
       case '/homeScreen':
         return GetPageRoute(
           page: () => HomePageScreen(),
