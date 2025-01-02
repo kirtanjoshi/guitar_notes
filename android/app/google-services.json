@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "356743729723",
+    "project_id": "guitar-notes-c1a96",
+    "storage_bucket": "guitar-notes-c1a96.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356743729723:android:24d3bcdda741e817bb821e",
+        "android_client_info": {
+          "package_name": "com.example.guitar_notes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGFA3Bs-wJ_iR-2a_pVd8HLAfJD1hyIKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
